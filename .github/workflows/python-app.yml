@@ -44,7 +44,12 @@ jobs:
         run: |
           zip -r python-app.zip . \
             -x "venv/*" ".git/*" ".github/*"
-
+    # Optional: run tests
+      - name: Run tests
+        run: |
+          source venv/bin/activate
+          pytest
+          
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
