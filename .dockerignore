@@ -1,0 +1,14 @@
+.venv
+venv
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+.git
+.github
+terraform/
+*.zip
+*.tar.gz
+*.egg-info
