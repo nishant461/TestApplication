@@ -1,8 +1,5 @@
 name: Python CI/CD to Azure Web App
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
 
 jobs:
@@ -39,16 +36,20 @@ jobs:
           pip install --upgrade pip
           pip install -r requirements.txt
 
-      # Package app for deployment
-      - name: Create deployment package
+      # Build Docker image and save as artifact
+      - name: Build Docker image
         run: |
-          zip -r python-app.zip . \
-            -x "venv/*" ".git/*" ".github/*"
-    # Optional: run tests
-      - name: Run tests
+          docker build -t python-hello:v.0.1 .
+
+      - name: Save Docker image to tar
         run: |
-          source venv/bin/activate
-          pytest
+          docker save python-hello:latest -o python-hello.tar
+
+      - name: Upload docker image artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-hello-image
+          path: python-hello.tar
           
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
